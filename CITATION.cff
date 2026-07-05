@@ -4,7 +4,7 @@ message: "If you use this work, please cite it using the metadata below."
 type: dataset
 authors:
   - given-names: urme
-license: CC-BY-4.0
+license: MIT
 date-released: "2022-12-18"
 url: https://github.com/urmeo/antenna
 repository-code: https://github.com/urmeo/antenna
