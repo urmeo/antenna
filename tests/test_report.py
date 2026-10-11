@@ -7,7 +7,7 @@ from antenna.results import load
 
 
 def test_readme_tables_match_source():
-    text = (Path(__file__).parents[2] / "README.md").read_text(encoding="utf-8")
+    text = (Path(__file__).parents[1] / "README.md").read_text(encoding="utf-8")
     for name in ("results-table", "bandwidth-table"):
         actual = text.split("<!-- BEGIN:%s -->\n" % name)[1].split("\n<!-- END:%s -->" % name)[0]
         assert actual == tables.render_all(load())[name]

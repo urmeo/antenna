@@ -24,12 +24,12 @@ dev = ["pytest>=7"]
 antenna = "antenna.__main__:main"
 
 [tool.setuptools.packages.find]
-where = ["tools"]
+where = ["src"]
 include = ["antenna*"]
 
 [tool.setuptools.package-data]
 antenna = ["data/*.json"]
 
 [tool.pytest.ini_options]
-pythonpath = ["tools"]
-testpaths = ["tools/tests"]
+pythonpath = ["src"]
+testpaths = ["tests"]

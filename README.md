@@ -67,6 +67,8 @@ BW uses `100 × (upper − lower) / midpoint`. Source reports conflict: circular
 
 ## Toolkit
 
+Source code is in `src/antenna/`; tests are in `tests/`.
+
 ```sh
 python -m pip install -e ".[plots,dev]"
 antenna check
