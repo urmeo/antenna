@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="800" viewBox="0 0 1120 800" fill="none" role="img" aria-labelledby="pipeline-title pipeline-description">
+  <title id="pipeline-title">Antenna project pipeline: five patch geometries, from design to comparison</title>
+  <desc id="pipeline-description">The hardware study designs five FR4 patch geometries for a 2.45 GHz target, simulates them in CST, fabricates the patches, and measures them with a VNA. Simulation and measurement values recorded in the source PDF reports are manually transcribed into results.json. The repository checks S11 against VSWR, calculates bandwidth from reported band edges, and estimates resonance. README tables and plots compare the five shapes. Original raw sweeps are not included. The antenna ingest command can analyze separately supplied Touchstone s1p sweeps.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0L9 4.5L0 9Z" fill="#55C4E0"/>
+    </marker>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; }
+      .title { fill: #E7EDED; font-size: 30px; font-weight: 600; }
+      .subtitle { fill: #A8B5BD; font-size: 20px; }
+      .lane { fill: #E7EDED; font-size: 18px; font-weight: 600; letter-spacing: 1px; }
+      .number { fill: #55C4E0; font-size: 18px; font-weight: 600; }
+      .heading { fill: #E7EDED; font-size: 24px; font-weight: 600; }
+      .body { fill: #A8B5BD; font-size: 20px; }
+      .note { fill: #A8B5BD; font-size: 18px; }
+      .label { fill: #55C4E0; font-size: 18px; }
+      .mono { font-family: "IBM Plex Mono", "Courier New", monospace; }
+      .card { fill: #1B2327; stroke: #CAD4D9; stroke-width: 1.5; }
+      .analysis { fill: #1B2327; stroke: #55C4E0; stroke-width: 1.5; }
+      .link { fill: none; stroke: #55C4E0; stroke-width: 2; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect width="1120" height="800" fill="#14191C"/>
+  <text class="title" x="46" y="60">ANTENNA PIPELINE</text>
+  <text class="subtitle" x="46" y="92">Five patch geometries · 2.45 GHz target · FR4</text>
+  <path d="M46 111H1074" stroke="#A8B5BD" stroke-width="1.5"/>
+  <rect x="24" y="124" width="1072" height="572" rx="8" fill="#1B2327" stroke="#303B41" stroke-width="1.5"/>
+
+  <text class="lane" x="46" y="145">HARDWARE STUDY</text>
+
+  <rect class="card" x="46" y="158" width="236" height="192" rx="8"/>
+  <text class="number" x="68" y="190">01</text>
+  <text class="heading" x="68" y="225">Design patches</text>
+  <text class="body" x="68" y="265">2.45 GHz target</text>
+  <text class="body" x="68" y="294">Five shapes · FR4</text>
+  <text class="body" x="68" y="323">Feed + ground</text>
+
+  <rect class="card" x="310" y="158" width="236" height="192" rx="8"/>
+  <text class="number" x="332" y="190">02</text>
+  <text class="heading" x="332" y="225">Run CST</text>
+  <text class="body" x="332" y="265">Simulated S11</text>
+  <text class="body" x="332" y="294">VSWR + bandwidth</text>
+
+  <rect class="card" x="574" y="158" width="236" height="192" rx="8"/>
+  <text class="number" x="596" y="190">03</text>
+  <text class="heading" x="596" y="225">Build patches</text>
+  <text class="body" x="596" y="265">Mask · laminate · UV</text>
+  <text class="body" x="596" y="294">Develop · etch · strip</text>
+
+  <rect class="card" x="838" y="158" width="236" height="192" rx="8"/>
+  <text class="number" x="860" y="190">04</text>
+  <text class="heading" x="860" y="225">Use the VNA</text>
+  <text class="body" x="860" y="265">Measured S11</text>
+  <text class="body" x="860" y="294">VSWR readings</text>
+
+  <path class="link" d="M284 254H302" marker-end="url(#arrow)"/>
+  <path class="link" d="M548 254H566" marker-end="url(#arrow)"/>
+  <path class="link" d="M812 254H830" marker-end="url(#arrow)"/>
+
+  <path class="link" d="M428 352V400"/>
+  <path class="link" d="M956 352V400H204V464" marker-end="url(#arrow)"/>
+  <circle cx="428" cy="400" r="3.5" fill="#55C4E0"/>
+  <text class="label" x="570" y="385">PDF source reports</text>
+
+  <text class="lane" x="46" y="450">ANALYSIS</text>
+  <text class="note" x="402" y="450">Reproduce from the recorded values</text>
+
+  <rect class="analysis" x="46" y="472" width="316" height="200" rx="8"/>
+  <text class="number" x="68" y="505">05</text>
+  <text class="heading" x="68" y="540">Record source values</text>
+  <text class="body" x="68" y="580">PDF reports → results.json</text>
+  <text class="body" x="68" y="609">Manual transcription</text>
+
+  <rect class="analysis" x="402" y="472" width="316" height="200" rx="8"/>
+  <text class="number" x="424" y="505">06</text>
+  <text class="heading" x="424" y="540">Check consistency</text>
+  <text class="body" x="424" y="580">S11 ↔ VSWR</text>
+  <text class="body" x="424" y="609">Bandwidth from band edges</text>
+  <text class="body" x="424" y="638">Approximate resonance</text>
+
+  <rect class="analysis" x="758" y="472" width="316" height="200" rx="8"/>
+  <text class="number" x="780" y="505">07</text>
+  <text class="heading" x="780" y="540">Compare all shapes</text>
+  <text class="body" x="780" y="580">Simulation vs. measurement</text>
+  <text class="body" x="780" y="609">Bands vs. 2.45 GHz target</text>
+  <text class="body" x="780" y="638">README tables + plots</text>
+
+  <path class="link" d="M364 572H394" marker-end="url(#arrow)"/>
+  <path class="link" d="M720 572H750" marker-end="url(#arrow)"/>
+
+  <text class="note" x="46" y="732">Original raw sweeps are not included; reported discrepancies remain unresolved.</text>
+  <text class="note" x="46" y="766">New Touchstone .s1p sweeps can be analyzed with <tspan class="label mono">antenna ingest</tspan>.</text>
+</svg>
