@@ -39,6 +39,10 @@ Reported measured VSWR disagrees with S11 in **5/5** rows. Calculated VSWR is a 
 
 <p align="center"><img src="outputs/s11_sim_vs_meas.png" alt="Reported simulated and measured S11 minima" width="960"></p>
 
+The circular patch CST S11 plot is shown below; raw sweep data is unavailable.
+
+<p align="center"><img src="outputs/s11_circular_cst.png" alt="Circular patch CST S11 plot" width="960"></p>
+
 <!-- BEGIN:bandwidth-table -->
 | Shape | Reported band (GHz) | Reported BW (%) | BW from edges (%) |
 |---|---|---|---|
@@ -64,6 +68,55 @@ BW uses `100 × (upper − lower) / midpoint`. Source reports conflict: circular
 | Circular / square / hexagonal | Radius 17 / side 29.38 / side 17 mm |
 | Triangle | Base 37.60; height 29.38 mm |
 | F shape | 37.60 × 29.38 mm; vertical 10; bars 8; gap 3; middle 25 mm |
+
+### Approximate resonance
+
+Closed form resonance estimates for the five patch shapes relative to the 2.45 GHz target.
+
+<p align="center"><img src="outputs/resonance_vs_target.png" alt="Approximate closed form resonant frequency for each patch shape compared with the 2.45 GHz target" width="960"></p>
+
+### Fabricated patches
+
+<table>
+  <tr>
+    <td align="center"><img src="images/antennas/circular-patch.jpg" alt="Fabricated circular copper patch antenna" width="460"><br><strong>Circular</strong></td>
+    <td align="center"><img src="images/antennas/f-shaped-patch.jpg" alt="Fabricated F-shaped copper patch antenna" width="460"><br><strong>F-shaped</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/antennas/triangular-patch.jpg" alt="Fabricated triangular copper patch antenna" width="460"><br><strong>Triangular</strong></td>
+    <td align="center"><img src="images/antennas/square-patch.jpg" alt="Fabricated square copper patch antenna" width="460"><br><strong>Square</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="images/antennas/hexagonal-patch.jpg" alt="Fabricated hexagonal copper patch antenna" width="460"><br><strong>Hexagonal</strong></td>
+  </tr>
+</table>
+
+## Fabrication and measurement
+
+### Fabrication stages
+
+<table>
+  <tr>
+    <td align="center"><img src="images/fabrication/fr4-substrate-blank.jpg" alt="Blank FR4 substrate before patch fabrication" width="460"><br><strong>Blank FR4 substrate</strong></td>
+    <td align="center"><img src="images/fabrication/circular-patch-naoh-bath.jpg" alt="Circular patch in a sodium hydroxide bath during fabrication" width="460"><br><strong>Circular patch in the NaOH bath</strong></td>
+  </tr>
+</table>
+
+### Equipment
+
+<table>
+  <tr>
+    <td align="center"><img src="images/equipment/laminator.jpg" alt="Laminator used during patch fabrication" width="460"><br><strong>Laminator</strong></td>
+    <td align="center"><img src="images/equipment/etching-machine.jpg" alt="Etching machine used during patch fabrication" width="460"><br><strong>Etching machine</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/equipment/uv-exposure-open.jpg" alt="UV exposure unit with its lid open" width="460"><br><strong>UV exposure unit — open</strong></td>
+    <td align="center"><img src="images/equipment/uv-exposure-closed.jpg" alt="UV exposure unit with its lid closed" width="460"><br><strong>UV exposure unit — closed</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="images/equipment/vna-smith-chart.jpg" alt="Vector network analyzer displaying a Smith chart" width="460"><br><strong>VNA Smith chart</strong></td>
+  </tr>
+</table>
 
 ## Toolkit
 
