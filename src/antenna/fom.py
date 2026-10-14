@@ -1,7 +1,7 @@
-"""Mathematical proxies for reported pattern values expressed in dB.
+"""Mathematical proxies for reported pattern values in dB.
 
 Comparisons require the same known physical quantity and compatible settings.
-These helpers do not make gain and directivity interchangeable or verify gain.
+These helpers do not verify gain.
 """
 from __future__ import annotations
 

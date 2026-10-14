@@ -46,11 +46,7 @@ def center_frequency(f_low: float, f_high: float) -> float:
 
 
 def fractional_bandwidth_pct(f_low: float, f_high: float, reference: "float | None" = None) -> float:
-    """Fractional bandwidth in percent.
-
-    ``reference`` defaults to the band centre; pass the design frequency to
-    measure bandwidth relative to the intended operating point instead.
-    """
+    """Return bandwidth (%) relative to ``reference`` or the band midpoint."""
     _band(f_low, f_high)
     ref = reference if reference is not None else center_frequency(f_low, f_high)
     _positive(ref, "bandwidth reference")

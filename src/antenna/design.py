@@ -1,7 +1,7 @@
 """Closed-form sizing estimates for each patch geometry.
 
-Triangle, hexagon, and F-shape estimates approximate their actual geometry.
-These calculations do not establish a measured or simulated resonance.
+Triangle, hexagon and F-shape models approximate the study geometries.
+Their resonance estimates require simulation or measurement validation.
 
 References: Balanis, *Antenna Theory* 4e, ch. 14 (rectangular & circular);
 Garg et al., *Microstrip Antenna Design Handbook* (triangular, polygonal).
@@ -100,11 +100,7 @@ def circular_resonant_frequency(radius_mm: float, er: float, h_mm: float) -> flo
 
 
 def triangular_resonant_frequency(side_mm: float, er: float) -> float:
-    """TM10 resonant frequency (GHz) of an equilateral triangular patch.
-
-    Uses the side length as the resonant dimension. The study's patch is
-    isosceles (base != height), so this is an approximation for its base.
-    """
+    """Equilateral TM10 estimate (GHz), using the study's isosceles base."""
     _positive(side_mm, "triangle side")
     _material(er, 1.0)
     return _result(2 * C_MM_S / (3 * side_mm * math.sqrt(er)) / 1e9)
@@ -122,7 +118,7 @@ def hexagonal_resonant_frequency(side_mm: float, er: float, h_mm: float) -> floa
 
 
 def patch_area_mm2(key: str, dims: Dict[str, float]) -> float:
-    """Metal footprint area (mm^2), used for the area-normalised figure of merit."""
+    """Nominal metal footprint area (mm^2)."""
     validate_dimensions(key, dims)
     if key == "circular":
         return _result(math.pi * dims["R"] * dims["R"])
@@ -171,11 +167,7 @@ PRIMARY_DIMENSION = {"circular": "R", "square": "S", "triangular": "Tb",
 
 def synthesize_dimension(key: str, dims: Dict[str, float], er: float, h_mm: float,
                          target_ghz: float) -> float:
-    """Solve for the primary dimension (mm) that resonates at ``target_ghz``.
-
-    Inverts :func:`resonant_frequency` by bisection; resonance falls
-    monotonically as the patch grows, so the root is unique.
-    """
+    """Estimate the primary dimension (mm) for ``target_ghz`` by bisection."""
     if key not in PRIMARY_DIMENSION:
         raise ValueError("unknown geometry: %s" % key)
     validate_dimensions(key, dims)

@@ -1,8 +1,7 @@
-"""Minimal Touchstone (.s1p) reader for measured/simulated S11 sweeps.
+"""Read Touchstone v1 one-port S11 sweeps in DB, MA or RI format.
 
-Handles Touchstone v1 one-port files with a ``# <freq-unit> S <format> R <z0>``
-option line, in DB/MA/RI formats. Keywords may be reordered or omitted using
-the v1 defaults. Other network parameters and Touchstone v2 are unsupported.
+Option keywords may be reordered or omitted using v1 defaults.
+Other network parameters and Touchstone v2 are unsupported.
 """
 from __future__ import annotations
 
@@ -48,8 +47,7 @@ def resonance(sweep: Sweep) -> Tuple[float, float]:
 def band_edges(sweep: Sweep, threshold_db: float = -10.0) -> Optional[Tuple[float, float]]:
     """Interpolate the contiguous threshold band around the deepest minimum.
 
-    Return None if either crossing is outside the sweep or cannot be
-    interpolated in dB. Disconnected bands are never merged.
+    Return None unless both boundary crossings can be interpolated in dB.
     """
     sweep.validate()
     if not _finite(threshold_db):
