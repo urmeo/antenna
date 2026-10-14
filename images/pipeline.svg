@@ -1,89 +1,75 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1068" viewBox="0 0 600 1068" fill="none" role="img" aria-labelledby="pipeline-title pipeline-description">
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="432" viewBox="0 0 840 432" fill="none" role="img" aria-labelledby="pipeline-title pipeline-description">
   <title id="pipeline-title">Antenna pipeline: design, simulate, fabricate, measure, check and compare</title>
-  <desc id="pipeline-description">A six-step project workflow. Design five FR4 patch shapes for a 2.45 GHz target. Simulate S11, VSWR and bandwidth in CST. Fabricate the copper patches and measure S11 and VSWR with a vector network analyzer. Values from both CST and VNA source reports are manually entered into results.json. Python checks S11 against VSWR and bandwidth from reported band edges, then generates comparison tables and plots. This diagram describes the study and analysis sequence, not an automated transfer between tools. Original CST and VNA sweeps are not included, and source discrepancies remain unresolved.</desc>
+  <desc id="pipeline-description">Design five FR4 patch shapes for a 2.45 GHz target, simulate them in CST, fabricate copper patches, and measure S11 and VSWR with a VNA. Python checks VSWR and bandwidth using values manually recorded from CST and VNA reports, then generates comparison tables and plots. The arrows show the study sequence; they do not represent automatic data transfer. Original sweeps are not included, and source discrepancies remain unresolved.</desc>
   <defs>
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M0 0L8 4L0 8Z" fill="#55C4E0"/>
     </marker>
     <style>
       text { font-family: Arial, sans-serif; }
-      .title { fill: #E7EDED; font-size: 30px; font-weight: 700; }
-      .subtitle { fill: #A8B5BD; font-size: 22px; }
-      .stage rect { fill: #1B2327; stroke: #71818B; stroke-width: 1.5; }
+      .title { fill: #E7EDED; font-size: 28px; font-weight: 700; }
+      .meta { fill: #A8B5BD; font-size: 18px; }
+      .stage rect { fill: #1B2327; stroke: #CAD4D9; stroke-width: 1.5; }
       .analysis rect { stroke: #55C4E0; }
-      .stage circle { fill: #23343C; }
-      .number { fill: #55C4E0; font-size: 23px; font-weight: 700; }
-      .heading { fill: #E7EDED; font-size: 30px; font-weight: 700; }
-      .body { fill: #BEC9CF; font-size: 24px; }
-      .connector { fill: none; stroke: #55C4E0; stroke-width: 2; }
-      .note { fill: #A8B5BD; font-size: 20px; }
+      .number { fill: #55C4E0; font-size: 16px; font-weight: 600; }
+      .heading { fill: #E7EDED; font-size: 28px; font-weight: 600; }
+      .body { fill: #BEC9CF; font-size: 20px; }
+      .connector { fill: none; stroke: #55C4E0; stroke-width: 2; stroke-linejoin: round; }
+      .note { fill: #A8B5BD; font-size: 17px; }
     </style>
   </defs>
-  <rect width="600" height="1068" fill="#14191C"/>
-  <text class="title" x="24" y="44">ANTENNA PIPELINE</text>
-  <text class="subtitle" x="24" y="77">Hardware study and Python analysis</text>
+  <rect width="840" height="432" fill="#14191C"/>
+  <text class="title" x="28" y="43">ANTENNA PIPELINE</text>
+  <text class="meta" x="812" y="42" text-anchor="end">2.45 GHz target</text>
+  <path d="M28 64H812" stroke="#71818B" stroke-width="1"/>
+
   <g id="stage-01" class="stage study">
-    <rect x="24" y="112" width="552" height="116" rx="10"/>
-    <circle cx="61" cy="145" r="22"/>
-    <text class="number" x="61" y="153" text-anchor="middle">01</text>
-    <text class="heading" x="102" y="148">Design</text>
-    <text class="body" x="102" y="179">Five FR4 patch shapes</text>
-    <text class="body" x="102" y="207">2.45 GHz target</text>
+    <rect x="28" y="88" width="244" height="112" rx="8"/>
+    <text class="number" x="48" y="114">01</text>
+    <text class="heading" x="48" y="147">Design</text>
+    <text class="body" x="48" y="176">Five shapes · FR4</text>
   </g>
 
   <g id="stage-02" class="stage study">
-    <rect x="24" y="256" width="552" height="116" rx="10"/>
-    <circle cx="61" cy="289" r="22"/>
-    <text class="number" x="61" y="297" text-anchor="middle">02</text>
-    <text class="heading" x="102" y="292">Simulate</text>
-    <text class="body" x="102" y="323">Run CST simulations</text>
-    <text class="body" x="102" y="351">S11 · VSWR · bandwidth</text>
+    <rect x="298" y="88" width="244" height="112" rx="8"/>
+    <text class="number" x="318" y="114">02</text>
+    <text class="heading" x="318" y="147">Simulate</text>
+    <text class="body" x="318" y="176">CST · S11 + bandwidth</text>
   </g>
 
   <g id="stage-03" class="stage study">
-    <rect x="24" y="400" width="552" height="116" rx="10"/>
-    <circle cx="61" cy="433" r="22"/>
-    <text class="number" x="61" y="441" text-anchor="middle">03</text>
-    <text class="heading" x="102" y="436">Fabricate</text>
-    <text class="body" x="102" y="467">Copper patterns on FR4</text>
-    <text class="body" x="102" y="495">UV exposure → develop → etch</text>
+    <rect x="568" y="88" width="244" height="112" rx="8"/>
+    <text class="number" x="588" y="114">03</text>
+    <text class="heading" x="588" y="147">Fabricate</text>
+    <text class="body" x="588" y="176">Copper patches</text>
   </g>
 
   <g id="stage-04" class="stage study">
-    <rect x="24" y="544" width="552" height="116" rx="10"/>
-    <circle cx="61" cy="577" r="22"/>
-    <text class="number" x="61" y="585" text-anchor="middle">04</text>
-    <text class="heading" x="102" y="580">Measure</text>
-    <text class="body" x="102" y="611">Vector network analyzer (VNA)</text>
-    <text class="body" x="102" y="639">Read S11 and VSWR</text>
+    <rect x="28" y="264" width="244" height="112" rx="8"/>
+    <text class="number" x="48" y="290">04</text>
+    <text class="heading" x="48" y="323">Measure</text>
+    <text class="body" x="48" y="352">VNA · S11 + VSWR</text>
   </g>
 
   <g id="stage-05" class="stage analysis">
-    <rect x="24" y="688" width="552" height="144" rx="10"/>
-    <circle cx="61" cy="721" r="22"/>
-    <text class="number" x="61" y="729" text-anchor="middle">05</text>
-    <text class="heading" x="102" y="724">Check reported results</text>
-    <text class="body" x="102" y="755">CST + VNA reports → results.json</text>
-    <text class="body" x="102" y="783">Manual entry · Python checks</text>
-    <text class="body" x="102" y="811">Recalculate VSWR and bandwidth</text>
+    <rect x="298" y="264" width="244" height="112" rx="8"/>
+    <text class="number" x="318" y="290">05</text>
+    <text class="heading" x="318" y="323">Check</text>
+    <text class="body" x="318" y="352">VSWR + bandwidth</text>
   </g>
 
   <g id="stage-06" class="stage analysis">
-    <rect x="24" y="860" width="552" height="116" rx="10"/>
-    <circle cx="61" cy="893" r="22"/>
-    <text class="number" x="61" y="901" text-anchor="middle">06</text>
-    <text class="heading" x="102" y="896">Compare all five shapes</text>
-    <text class="body" x="102" y="927">Simulation vs. measurement</text>
-    <text class="body" x="102" y="955">README tables + plots</text>
+    <rect x="568" y="264" width="244" height="112" rx="8"/>
+    <text class="number" x="588" y="290">06</text>
+    <text class="heading" x="588" y="323">Compare</text>
+    <text class="body" x="588" y="352">Tables + plots</text>
   </g>
 
-  <path class="connector" d="M300 231V248" marker-end="url(#arrow)"/>
-  <path class="connector" d="M300 375V392" marker-end="url(#arrow)"/>
-  <path class="connector" d="M300 519V536" marker-end="url(#arrow)"/>
-  <path class="connector" d="M300 663V680" marker-end="url(#arrow)"/>
-  <path class="connector" d="M300 835V852" marker-end="url(#arrow)"/>
+  <path class="connector" d="M274 144H290" marker-end="url(#arrow)"/>
+  <path class="connector" d="M544 144H560" marker-end="url(#arrow)"/>
+  <path class="connector" d="M690 202V232H150V256" marker-end="url(#arrow)"/>
+  <path class="connector" d="M274 320H290" marker-end="url(#arrow)"/>
+  <path class="connector" d="M544 320H560" marker-end="url(#arrow)"/>
 
-  <path d="M24 1000H576" stroke="#34424A" stroke-width="1"/>
-  <text class="note" x="24" y="1030">Original CST/VNA sweeps are not included.</text>
-  <text class="note" x="24" y="1056">Source discrepancies remain unresolved.</text>
+  <text class="note" x="28" y="411">Python checks values manually recorded from CST and VNA reports.</text>
 </svg>
