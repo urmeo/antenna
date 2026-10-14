@@ -45,9 +45,9 @@ def resonance(sweep: Sweep) -> Tuple[float, float]:
 
 
 def band_edges(sweep: Sweep, threshold_db: float = -10.0) -> Optional[Tuple[float, float]]:
-    """Interpolate the contiguous threshold band around the deepest minimum.
+    """Find the contiguous threshold band around the deepest minimum.
 
-    Return None unless both boundary crossings can be interpolated in dB.
+    Return None unless both boundaries are sampled or interpolable in dB.
     """
     sweep.validate()
     if not _finite(threshold_db):
@@ -59,7 +59,8 @@ def band_edges(sweep: Sweep, threshold_db: float = -10.0) -> Optional[Tuple[floa
         low -= 1
     while high + 1 < len(sweep.s11_db) and sweep.s11_db[high + 1] <= threshold_db:
         high += 1
-    if low == 0 or high == len(sweep.s11_db) - 1:
+    if ((low == 0 and sweep.s11_db[low] < threshold_db)
+            or (high == len(sweep.s11_db) - 1 and sweep.s11_db[high] < threshold_db)):
         return None
     if not _finite(sweep.s11_db[low]) or not _finite(sweep.s11_db[high]):
         return None
@@ -68,7 +69,9 @@ def band_edges(sweep: Sweep, threshold_db: float = -10.0) -> Optional[Tuple[floa
         fraction = (threshold_db - sweep.s11_db[i]) / (sweep.s11_db[j] - sweep.s11_db[i])
         return sweep.freqs_ghz[i] + fraction * (sweep.freqs_ghz[j] - sweep.freqs_ghz[i])
 
-    return crossing(low - 1, low), crossing(high, high + 1)
+    f_low = sweep.freqs_ghz[low] if sweep.s11_db[low] == threshold_db else crossing(low - 1, low)
+    f_high = sweep.freqs_ghz[high] if sweep.s11_db[high] == threshold_db else crossing(high, high + 1)
+    return f_low, f_high
 
 
 def _to_db(a: float, b: float, fmt: str) -> float:

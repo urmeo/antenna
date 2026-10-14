@@ -147,8 +147,30 @@ def test_exact_threshold_crossings_and_single_threshold_point():
     assert band_edges(Sweep([1, 2, 3], [-5, -10, -5])) == (2, 2)
 
 
+@pytest.mark.parametrize("values,expected", [
+    ([-10, -20, -5], (1, 2 + 2 / 3)),
+    ([-5, -20, -10], (1 + 1 / 3, 3)),
+    ([-10, -20, -10], (1, 3)),
+    ([-10, -10, -20, -10, -10], (1, 5)),
+    ([-10, -math.inf, -10], (1, 3)),
+    ([-10], (1, 1)),
+    ([-10, -10], (1, 2)),
+    ([-10, -15, -5, -20, -10], (3 + 1 / 3, 5)),
+])
+def test_exact_threshold_samples_define_endpoint_boundaries(values, expected):
+    sweep = Sweep(list(range(1, len(values) + 1)), values)
+    assert band_edges(sweep) == pytest.approx(expected)
+
+
+def test_exact_endpoint_crossings_use_supplied_threshold():
+    sweep = Sweep([1, 2, 3], [-6, -12, -6])
+    assert band_edges(sweep, threshold_db=-6) == (1, 3)
+
+
 @pytest.mark.parametrize("values", [[-20, -5, -5], [-5, -5, -20], [-20, -20, -20],
-                                   [-10, -20, -5], [-5, -5, -5], [-5, -math.inf, -5]])
+                                   [-10, -20, -20], [-20, -20, -10],
+                                   [-10.0001, -20, -5], [-5, -20, -10.0001],
+                                   [-5, -5, -5], [-5, -math.inf, -5]])
 def test_missing_or_uninterpolatable_crossings_are_unavailable(values):
     assert band_edges(Sweep([1, 2, 3], values)) is None
 
