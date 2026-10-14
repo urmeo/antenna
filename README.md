@@ -3,7 +3,7 @@
 Five FR4 patch antenna shapes, simulated in CST, fabricated and measured with a VNA. Python checks the reported results and generates comparison tables and plots.
 
 <p align="center">
-  <a href="images/pipeline.svg"><img src="images/pipeline.svg" alt="Antenna pipeline: design five FR4 patch shapes, simulate in CST, fabricate, measure with a VNA, check manually recorded CST and VNA report values, and compare all five shapes in tables and plots." width="600"></a>
+  <a href="images/pipeline.svg"><img src="images/pipeline.svg" alt="Antenna pipeline: design five FR4 patch shapes, simulate in CST, fabricate, measure with a VNA, check manually recorded CST and VNA report values, and compare all five shapes in tables and plots." width="840"></a>
   <br><sub>Select the pipeline to view it at full size.</sub>
 </p>
 
@@ -38,7 +38,7 @@ Reported measured VSWR disagrees with S11 in **5/5** rows. Calculated VSWR is a 
   <a href="outputs/s11_sim_vs_meas.png"><img src="outputs/s11_sim_vs_meas.png" alt="Reported simulated and measured S11 minima" width="760"></a>
 </p>
 
-### Bandwidth
+### Reported simulation bands
 
 <!-- BEGIN:bandwidth-table -->
 | Shape | Reported band (GHz) | Reported BW (%) | BW from edges (%) |
@@ -78,6 +78,8 @@ Closed form resonance estimates for the five patch shapes relative to the 2.45 G
 </details>
 
 ## Design
+
+Parameters used by the reconstruction; the original CAD files are unavailable. See the [source audit](docs/source-audit.md) for reported dimensions and reconstruction assumptions.
 
 ### Common parameters
 
@@ -214,7 +216,7 @@ Replace `path/to/trace.s1p` with your sweep file. The table-writing command upda
 
 ### CST model
 
-Open [`cst/patch-antenna.bas`](cst/patch-antenna.bas) in CST Studio Suite’s VBA editor; select `PatchShape` and run in a fresh project. The macro is a reconstruction template, not the original simulation project.
+Open [`cst/patch-antenna.bas`](cst/patch-antenna.bas) in CST Studio Suite’s VBA editor; select `PatchShape` and run in a fresh project. The macro uses a simplified gap-coupled feed; the report shows inset feeds. Its geometry and results require CST validation and do not reproduce the original model.
 
 ## References
 
@@ -223,8 +225,10 @@ Source reports: [Simulation and results](docs/simulation-and-results.pdf) · [Fa
 ### Evidence limits
 
 1. No raw CST/VNA sweeps, calibration logs or repeat measurements; source inconsistencies remain unverified.
-2. Closed form models approximate the triangle, hexagon and F shape; far field magnitude is not verified measured gain.
+2. Closed form models approximate the triangle, hexagon and F shape. Radiation figures mix simulated directivity and gain; the toolkit suppresses their cross-quantity pattern proxies.
 3. Macro execution requires CST; hardware performance and 2.45 GHz suitability require new measurements.
+
+The [source audit](docs/source-audit.md) maps reported values to PDF pages and explains these limits. `antenna check` currently reports 0 errors, 8 unresolved warnings and 3 informational estimates; a successful exit does not verify the measurements.
 
 <details>
 <summary><strong>Background references</strong></summary>
