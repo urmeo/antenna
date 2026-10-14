@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="840" height="432" viewBox="0 0 840 432" fill="none" role="img" aria-labelledby="pipeline-title pipeline-description">
   <title id="pipeline-title">Antenna pipeline: design, simulate, fabricate, measure, check and compare</title>
-  <desc id="pipeline-description">Design five FR4 patch shapes for a 2.45 GHz target, simulate them in CST, fabricate copper patches, and measure S11 and VSWR with a VNA. Python checks VSWR and bandwidth using values manually recorded from CST and VNA reports, then generates comparison tables and plots. The arrows show the study sequence; they do not represent automatic data transfer. Original sweeps are not included, and source discrepancies remain unresolved.</desc>
+  <desc id="pipeline-description">Design five FR4 patches for 2.45 GHz; simulate in CST, fabricate and measure with a VNA. Python checks manually transcribed report values and produces tables and plots. Arrows show study order, not automated transfer. Raw sweeps are unavailable; source discrepancies remain unresolved.</desc>
   <defs>
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M0 0L8 4L0 8Z" fill="#55C4E0"/>
