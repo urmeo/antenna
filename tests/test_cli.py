@@ -32,6 +32,40 @@ def test_ingest_exposes_reference_and_unavailable_bandwidth(tmp_path, capsys):
     assert "no complete band" in output
 
 
+def test_ingest_dc_threshold_band_has_unavailable_bandwidth(tmp_path, capsys):
+    path = tmp_path / "dc.s1p"
+    path.write_text("# GHz S DB R 50\n0 -10 0\n")
+    assert main(["ingest", str(path)]) == 0
+    captured = capsys.readouterr()
+    assert captured.err == ""
+    row = captured.out.splitlines()[1].split()
+    assert row[1] == "0.0000"
+    assert row[4] == "n/a"
+
+
+def test_ingest_derives_every_row_before_printing(tmp_path, capsys, monkeypatch):
+    valid = tmp_path / "valid.s1p"
+    valid.write_text("# GHz S DB\n2.4 -5 0\n2.45 -20 0\n2.5 -5 0\n")
+    unavailable = tmp_path / "unavailable.s1p"
+    unavailable.write_text(valid.read_text())
+    from antenna.touchstone import resonance
+
+    calls = 0
+
+    def fail_on_second_sweep(sweep):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise ValueError("derived reading is unavailable")
+        return resonance(sweep)
+
+    monkeypatch.setattr("antenna.touchstone.resonance", fail_on_second_sweep)
+    assert main(["ingest", str(valid), str(unavailable)]) == 2
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "derived reading is unavailable" in captured.err
+
+
 def test_ingest_rejects_concatenated_options_without_output(tmp_path, capsys):
     path = tmp_path / "concatenated.s1p"
     path.write_text("# GHz S DB R 50\n2.4 -20 0\n# MHz S MA R 75\n2450 .1 0\n")

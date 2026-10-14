@@ -192,6 +192,14 @@ def test_threshold_must_be_finite():
         band_edges(Sweep([1, 2, 3], [-5, -20, -5]), math.nan)
 
 
+@pytest.mark.parametrize("threshold,expected", [(-10, (1.5, 2.5)),
+                                                (-5e307, (1.75, 2.25)),
+                                                (5e307, (1.25, 2.75))])
+def test_finite_extreme_db_values_do_not_overflow_interpolation(threshold, expected):
+    sweep = Sweep([1, 2, 3], [1e308, -1e308, 1e308])
+    assert band_edges(sweep, threshold) == pytest.approx(expected)
+
+
 def test_ri_overflow_reports_a_short_line_numbered_error(tmp_path, capsys):
     from antenna.__main__ import main
 

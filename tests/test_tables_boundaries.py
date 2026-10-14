@@ -68,6 +68,31 @@ def test_custom_json_names_roundtrip_through_write_and_check(tmp_path, capsys):
     capsys.readouterr()
 
 
+def test_html_and_marker_text_in_names_roundtrip_without_corrupting_blocks(tmp_path, capsys):
+    ds = load()
+    ds.geometries[0].name = (
+        "Circular <inset> & gap <!-- BEGIN:results-table --> <!-- END:results-table -->"
+    )
+    raw = asdict(ds)
+    geometries = raw.pop("geometries")
+    data = tmp_path / "results.json"
+    data.write_text(json.dumps({"meta": raw, "geometries": geometries}))
+    readme = tmp_path / "README.md"
+    readme.write_text("<!-- BEGIN:results-table -->\nstale\n<!-- END:results-table -->\n")
+    args = ["tables", "--data", str(data), "--readme", str(readme)]
+
+    assert main(args + ["--write"]) == 0
+    once = readme.read_text()
+    assert "Circular &lt;inset&gt; &amp; gap" in once
+    assert "&lt;!-- BEGIN:results-table --&gt; &lt;!-- END:results-table --&gt;" in once
+    assert once.count("<!-- BEGIN:results-table -->") == 1
+    assert once.count("<!-- END:results-table -->") == 1
+    assert main(args + ["--check"]) == 0
+    assert main(args + ["--write"]) == 0
+    assert readme.read_text() == once
+    capsys.readouterr()
+
+
 @pytest.mark.parametrize("body", ["stale", "  \nstale\n  ", "\n"])
 def test_write_normalizes_compact_marked_blocks_and_is_idempotent(tmp_path, capsys, body):
     readme = tmp_path / "README.md"

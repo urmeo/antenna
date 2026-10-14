@@ -28,6 +28,20 @@ def test_pattern_area_rejects_invalid_area(value):
         fom.gain_per_area(5.54, value)
 
 
+def test_pattern_area_rejects_unit_conversion_underflow():
+    with pytest.raises(ValueError, match="area.*too small"):
+        fom.gain_per_area(0, 5e-324)
+
+
+@pytest.mark.parametrize("function,args", [
+    (fom.gain_per_area, (3000, 1e-20)),
+    (fom.gain_bandwidth_product, (3000, 1e100)),
+])
+def test_pattern_proxy_rejects_nonfinite_calculated_results(function, args):
+    with pytest.raises(ValueError, match="proxy.*numeric range"):
+        function(*args)
+
+
 def test_pattern_proxy_is_not_labelled_verified_gain():
     report = tables.figure_of_merit_table(load())
     assert "Pattern proxy" in report and "Gain ÷ area" not in report

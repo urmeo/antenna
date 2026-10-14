@@ -40,6 +40,23 @@ def test_near_unity_vswr_is_finite_and_positive_s11_does_not_overflow():
     assert metrics.vswr_from_s11_db(-math.inf) == 1
 
 
+@pytest.mark.parametrize("s11_db", [-1e-12, -1e-15, -1e-17, -1e-20])
+def test_vswr_near_total_reflection_retains_precision(s11_db):
+    expected = -1 / math.tanh(s11_db * (math.log(10) / 40))
+    assert metrics.vswr_from_s11_db(s11_db) == pytest.approx(expected, rel=1e-14)
+
+
+@pytest.mark.parametrize("vswr,expected", [(1e10, -1.737177927613007e-9),
+                                          (1e17, -1.737177927613007e-16),
+                                          (1e20, -1.737177927613007e-19)])
+def test_large_finite_vswr_retains_negative_s11(vswr, expected):
+    assert metrics.s11_db_from_vswr(vswr) == pytest.approx(expected, rel=1e-14, abs=0)
+
+
+def test_unrepresentably_large_vswr_remains_infinite():
+    assert metrics.vswr_from_s11_db(-math.ulp(0.0)) == math.inf
+
+
 @pytest.mark.parametrize("value", [math.nan, math.inf, True, "-20"])
 def test_invalid_s11_is_rejected(value):
     for function in (metrics.vswr_from_s11_db, metrics.reflection_coefficient):
