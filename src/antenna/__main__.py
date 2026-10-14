@@ -71,15 +71,22 @@ def _cmd_synth(args: argparse.Namespace) -> int:
 def _cmd_ingest(args: argparse.Namespace) -> int:
     from .touchstone import band_edges, read_s1p, resonance
     sweeps = [read_s1p(path) for path in args.s1p]
-    print("%-24s %10s %8s %8s %8s %9s" % ("file", "f_min GHz", "S11 dB", "VSWR", "BW %", "R ohm"))
+    rows = []
     for path, sweep in zip(args.s1p, sweeps):
         f_res, s11_min = resonance(sweep)
         edges = band_edges(sweep)
-        bw = "%.2f" % metrics.fractional_bandwidth_pct(*edges) if edges else "n/a"
-        print("%-24s %10.4f %8.2f %8.3f %8s %9.2f"
-              % (os.path.basename(path), f_res, s11_min, metrics.vswr_from_s11_db(s11_min), bw,
-                 sweep.reference_ohms))
-    print("BW uses interpolated -10 dB crossings around the deepest minimum; n/a means no complete band.")
+        bw = "n/a"
+        if edges and edges[1] > 0:
+            reference = metrics.center_frequency(*edges)
+            if reference > 0:
+                bw = "%.2f" % metrics.fractional_bandwidth_pct(*edges, reference=reference)
+        rows.append("%-24s %10.4f %8.2f %8.3f %8s %9.2f"
+                    % (os.path.basename(path), f_res, s11_min, metrics.vswr_from_s11_db(s11_min), bw,
+                       sweep.reference_ohms))
+    print("%-24s %10s %8s %8s %8s %9s" % ("file", "f_min GHz", "S11 dB", "VSWR", "BW %", "R ohm"))
+    for row in rows:
+        print(row)
+    print("BW uses -10 dB crossings around the deepest minimum; n/a means no complete band or a zero midpoint.")
     return 0
 
 

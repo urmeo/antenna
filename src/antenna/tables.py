@@ -1,6 +1,7 @@
 """Render and verify marked README tables from canonical data."""
 from __future__ import annotations
 
+import html
 import re
 from typing import Dict, List, Sequence, Tuple
 
@@ -23,7 +24,7 @@ def _signed(value: float, decimals: int) -> str:
 
 def _table(headers: Sequence[str], rows: Sequence[Tuple[List[str], bool]]) -> str:
     def emphasise(cells: List[str], bold: bool) -> List[str]:
-        cells = [c.replace("\\", "\\\\").replace("|", "\\|")
+        cells = [html.escape(c, quote=False).replace("\\", "\\\\").replace("|", "\\|")
                   .replace("\r\n", "\n").replace("\r", "\n").replace("\n", "<br>")
                  for c in cells]
         return ["**%s**" % c for c in cells] if bold else cells

@@ -67,7 +67,13 @@ def band_edges(sweep: Sweep, threshold_db: float = -10.0) -> Optional[Tuple[floa
         return None
 
     def crossing(i: int, j: int) -> float:
-        fraction = (threshold_db - sweep.s11_db[i]) / (sweep.s11_db[j] - sweep.s11_db[i])
+        a, b = sweep.s11_db[i], sweep.s11_db[j]
+        numerator, denominator = threshold_db - a, b - a
+        if not math.isfinite(numerator) or not math.isfinite(denominator):
+            scale = max(abs(a), abs(b), abs(threshold_db))
+            numerator = threshold_db / scale - a / scale
+            denominator = b / scale - a / scale
+        fraction = numerator / denominator
         return sweep.freqs_ghz[i] + fraction * (sweep.freqs_ghz[j] - sweep.freqs_ghz[i])
 
     f_low = sweep.freqs_ghz[low] if sweep.s11_db[low] == threshold_db else crossing(low - 1, low)

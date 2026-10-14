@@ -21,10 +21,10 @@ def vswr_from_s11_db(s11_db: float) -> float:
     _s11(s11_db)
     if s11_db >= 0.0:
         return float("inf")
-    gamma = reflection_coefficient(s11_db)
-    if gamma >= 1.0:
+    one_minus_gamma = -math.expm1(s11_db * (math.log(10.0) / 20.0))
+    if one_minus_gamma == 0.0:
         return float("inf")
-    return (1.0 + gamma) / (1.0 - gamma)
+    return 2.0 / one_minus_gamma - 1.0
 
 
 def s11_db_from_vswr(vswr: float) -> float:
@@ -35,6 +35,8 @@ def s11_db_from_vswr(vswr: float) -> float:
         return float("-inf")
     if math.isinf(vswr):
         return 0.0
+    if vswr > 2.0:
+        return (20.0 / math.log(10.0)) * math.log1p(-2.0 / (vswr + 1.0))
     gamma = (vswr - 1.0) / (vswr + 1.0)
     return 20.0 * math.log10(gamma)
 

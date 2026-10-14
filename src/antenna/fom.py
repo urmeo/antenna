@@ -29,11 +29,20 @@ def gain_per_area(main_lobe_db: float, area_mm2: float) -> float:
     """Linear pattern proxy per cm^2 of nominal patch area."""
     if not _finite(area_mm2) or area_mm2 <= 0:
         raise ValueError("area must be finite and positive")
-    return gain_linear(main_lobe_db) / (area_mm2 / 100.0)
+    area_cm2 = area_mm2 / 100.0
+    if area_cm2 == 0:
+        raise ValueError("area is too small to represent in cm^2")
+    return _proxy_result(gain_linear(main_lobe_db) / area_cm2)
 
 
 def gain_bandwidth_product(main_lobe_db: float, bandwidth_pct: float) -> float:
     """Multiply the linear pattern proxy by a reported bandwidth fraction."""
     if not _finite(bandwidth_pct) or bandwidth_pct < 0:
         raise ValueError("bandwidth must be finite and nonnegative")
-    return gain_linear(main_lobe_db) * (bandwidth_pct / 100.0)
+    return _proxy_result(gain_linear(main_lobe_db) * (bandwidth_pct / 100.0))
+
+
+def _proxy_result(value: float) -> float:
+    if not math.isfinite(value):
+        raise ValueError("pattern proxy exceeds numeric range")
+    return value
