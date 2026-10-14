@@ -31,7 +31,7 @@ S11 minima occur at each shape’s resonance. **Circular has the deepest reporte
 | Hexagonal | −14.78 | −13.93 | 1.694 | 1.504 |
 <!-- END:results-table -->
 
-Reported measured VSWR disagrees with S11 in **5/5** rows. Calculated VSWR is a consistency check, not a new measurement.
+The **5/5** reported S11/VSWR pairs disagree under a shared frequency and port reference. The reports do not establish those shared conditions. Calculated VSWR is a derived check, not a measurement.
 
 <p align="center">
   <a href="outputs/s11_sim_vs_meas.png"><img src="outputs/s11_sim_vs_meas.png" alt="Reported simulated and measured S11 minima" width="760"></a>
@@ -49,7 +49,7 @@ Reported measured VSWR disagrees with S11 in **5/5** rows. Calculated VSWR is a 
 | Hexagonal | 2.0945 to 2.2455 | 2.12 | 6.96 |
 <!-- END:bandwidth-table -->
 
-BW uses `100 × (upper − lower) / midpoint`. Source reports conflict: circular is **3.62%** on p. 6 and **3.12%** on p. 20. Raw sweeps are needed to verify all bands.
+BW from edges uses `100 × (upper − lower) / midpoint`. The report does not establish the edge threshold or numeric normalization frequency. Circular is **3.62%** on p. 6 and **3.12%** on p. 20. Original CST sweeps are unavailable; all listed bands remain unverified.
 
 <p align="center">
   <a href="outputs/reported_bands.png"><img src="outputs/reported_bands.png" alt="Reported bands relative to the 2.45 GHz target" width="760"></a>
@@ -217,9 +217,9 @@ Source reports: [Simulation and results](docs/simulation-and-results.pdf) · [Fa
 
 ### Evidence limits
 
-1. No original CAD/CST files, raw sweeps, calibration logs or repeat measurements; report inconsistencies remain unresolved.
+1. No original CAD/CST files, raw sweeps, reading/calibration records or repeat measurements are available; report conflicts remain unresolved.
 2. Closed form models approximate the triangle, hexagon and F shape. Radiation figures mix simulated directivity and gain; mixed-quantity proxies are suppressed.
-3. Hardware performance and 2.45 GHz suitability require new measurements.
+3. Hardware performance and 2.45 GHz suitability require new measurements, recorded separately from these historical values.
 
 `antenna check`: 0 errors, 8 unresolved warnings and 3 informational estimates. A successful exit does not verify measurements.
 
