@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from antenna import fom, tables
+from antenna.design import patch_area_mm2
 from antenna.results import load
 
 
@@ -30,3 +31,44 @@ def test_pattern_area_rejects_invalid_area(value):
 def test_pattern_proxy_is_not_labelled_verified_gain():
     report = tables.figure_of_merit_table(load())
     assert "Pattern proxy" in report and "Gain ÷ area" not in report
+
+
+@pytest.mark.parametrize("quantities", [
+    ["unknown"] * 5,
+    ["directivity", "directivity", "directivity", "gain", "directivity"],
+    ["gain", "gain", "gain", "unknown", "gain"],
+])
+def test_mixed_or_unknown_pattern_quantities_suppress_both_proxies(quantities):
+    ds = load()
+    for geometry, quantity in zip(ds.geometries, quantities):
+        geometry.simulation.pattern_quantity = quantity
+    assert not tables.pattern_proxies_available(ds)
+    report = tables.figure_of_merit_table(ds)
+    assert "Nominal patch area (mm²)" in report
+    assert len(report.splitlines()) == len(ds.geometries) + 2
+    for geometry, row in zip(ds.geometries, report.splitlines()[2:]):
+        cells = [cell.strip().strip("*") for cell in row.split("|")[1:-1]]
+        assert cells[2] == geometry.simulation.pattern_quantity
+        assert cells[3] == "%.2f" % geometry.simulation.main_lobe_db
+        assert cells[-2:] == ["n/a", "n/a"]
+    simulation = tables.simulation_table(ds)
+    assert "Pattern quantity" in simulation
+    for quantity in set(quantities):
+        assert quantity in simulation
+
+
+@pytest.mark.parametrize("quantity", ["gain", "directivity"])
+def test_one_known_pattern_quantity_allows_both_proxies(quantity):
+    ds = load()
+    for geometry in ds.geometries:
+        geometry.simulation.pattern_quantity = quantity
+    assert tables.pattern_proxies_available(ds)
+    report = tables.figure_of_merit_table(ds)
+    for geometry, row in zip(ds.geometries, report.splitlines()[2:]):
+        cells = [cell.strip().strip("*") for cell in row.split("|")[1:-1]]
+        area = patch_area_mm2(geometry.key, geometry.dimensions_mm)
+        assert cells[-2:] == [
+            "%.3f" % fom.gain_per_area(geometry.simulation.main_lobe_db, area),
+            "%.3f" % fom.gain_bandwidth_product(
+                geometry.simulation.main_lobe_db, geometry.simulation.bandwidth_pct),
+        ]

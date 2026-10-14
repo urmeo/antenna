@@ -156,3 +156,17 @@ def test_missing_or_uninterpolatable_crossings_are_unavailable(values):
 def test_threshold_must_be_finite():
     with pytest.raises(ValueError):
         band_edges(Sweep([1, 2, 3], [-5, -20, -5]), math.nan)
+
+
+def test_ri_overflow_reports_a_short_line_numbered_error(tmp_path, capsys):
+    from antenna.__main__ import main
+
+    path = tmp_path / "oversized.s1p"
+    path.write_text("# GHz S RI R 50\n2.45 1.7e308 1.7e308\n")
+    with pytest.raises(ValueError, match=r"oversized\.s1p:2:"):
+        read_s1p(str(path))
+    assert main(["ingest", str(path)]) == 2
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "oversized.s1p:2:" in captured.err
+    assert "Traceback" not in captured.err

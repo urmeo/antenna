@@ -99,3 +99,21 @@ def test_load_retains_historical_values_and_pending_status(tmp_path):
     issues = consistency_issues(ds)
     assert sum(issue.level == "warning" for issue in issues) == 8
     assert not any(issue.level == "error" for issue in issues)
+
+
+def test_legacy_results_default_to_unknown_pattern_quantity(tmp_path):
+    raw = _raw()
+    for geometry in raw["geometries"]:
+        geometry["simulation"].pop("pattern_quantity", None)
+    path = tmp_path / "legacy.json"
+    path.write_text(json.dumps(raw))
+    ds = load(str(path))
+    assert all(g.simulation.pattern_quantity == "unknown" for g in ds.geometries)
+
+
+@pytest.mark.parametrize("quantity", [None, "dBi", "radiation", True, []])
+def test_invalid_pattern_quantity_is_rejected(quantity):
+    ds = load()
+    ds.geometries[0].simulation.pattern_quantity = quantity
+    with pytest.raises(ValueError, match="pattern quantity"):
+        validate(ds)

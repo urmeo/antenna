@@ -81,3 +81,19 @@ def test_plot_missing_extra_has_install_message(tmp_path, monkeypatch, capsys):
     assert main(["plot", "--out", str(output)]) != 0
     assert "plots extra" in capsys.readouterr().err
     assert not output.exists()
+
+
+@pytest.mark.parametrize("quantity,explain", [("unknown", True), ("mixed", True),
+                                           ("gain", False), ("directivity", False)])
+def test_tables_explain_when_pattern_proxies_are_unavailable(monkeypatch, capsys, quantity, explain):
+    from antenna.results import load
+
+    ds = load()
+    for geometry in ds.geometries:
+        geometry.simulation.pattern_quantity = "directivity" if quantity == "mixed" else quantity
+    if quantity == "mixed":
+        ds.geometries[3].simulation.pattern_quantity = "gain"
+    monkeypatch.setattr("antenna.__main__.load", lambda path: ds)
+    assert main(["tables"]) == 0
+    output = capsys.readouterr().out
+    assert ("Pattern proxy columns are n/a:" in output) is explain
