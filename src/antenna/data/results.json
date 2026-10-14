@@ -35,7 +35,8 @@
           2.4735
         ],
         "main_lobe_db": 5.54,
-        "side_lobe_db": -3.7
+        "side_lobe_db": -3.7,
+        "pattern_quantity": "directivity"
       },
       "measurement": {
         "s11_db": -31.99,
@@ -65,7 +66,8 @@
           2.3735
         ],
         "main_lobe_db": 4.11,
-        "side_lobe_db": -1.6
+        "side_lobe_db": -1.6,
+        "pattern_quantity": "directivity"
       },
       "measurement": {
         "s11_db": -16.98,
@@ -92,7 +94,8 @@
         ],
         "main_lobe_db": 4.51,
         "side_lobe_db": -0.6,
-        "bandwidth_pending": true
+        "bandwidth_pending": true,
+        "pattern_quantity": "directivity"
       },
       "measurement": {
         "s11_db": -15.37,
@@ -118,7 +121,8 @@
         ],
         "main_lobe_db": 3.0,
         "side_lobe_db": -6.7,
-        "bandwidth_pending": true
+        "bandwidth_pending": true,
+        "pattern_quantity": "gain"
       },
       "measurement": {
         "s11_db": -14.46,
@@ -144,7 +148,8 @@
         ],
         "main_lobe_db": 5.54,
         "side_lobe_db": -7.0,
-        "bandwidth_pending": true
+        "bandwidth_pending": true,
+        "pattern_quantity": "directivity"
       },
       "measurement": {
         "s11_db": -13.93,
