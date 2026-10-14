@@ -37,6 +37,9 @@ def _cmd_tables(args: argparse.Namespace) -> int:
     else:
         for name, markdown in tables_mod.render_all(ds).items():
             print("### %s\n%s\n" % (name, markdown))
+        if not tables_mod.pattern_proxies_available(ds):
+            print("Pattern proxy columns are n/a: every geometry must report gain, "
+                  "or every geometry must report directivity.")
     return 0
 
 
@@ -112,7 +115,7 @@ def main(argv: "list[str] | None" = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
 
     sub.add_parser("check", parents=[common],
-                   help="validate results against the physics").set_defaults(func=_cmd_check)
+                   help="check recorded RF identities and numerical consistency").set_defaults(func=_cmd_check)
 
     p_tables = sub.add_parser("tables", parents=[common], help="render or write the README tables")
     table_action = p_tables.add_mutually_exclusive_group()
@@ -122,10 +125,10 @@ def main(argv: "list[str] | None" = None) -> int:
     p_tables.set_defaults(func=_cmd_tables)
 
     sub.add_parser("design", parents=[common],
-                   help="closed-form resonance per geometry").set_defaults(func=_cmd_design)
+                   help="approximate closed-form resonance per geometry").set_defaults(func=_cmd_design)
 
     sub.add_parser("synth", parents=[common],
-                   help="dimension to resonate at the design frequency").set_defaults(func=_cmd_synth)
+                   help="estimate a primary dimension using a closed-form model").set_defaults(func=_cmd_synth)
 
     p_ingest = sub.add_parser("ingest", parents=[common],
                               help="resonance/VSWR/bandwidth from Touchstone sweeps")

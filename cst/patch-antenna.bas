@@ -1,5 +1,9 @@
 Option Explicit
 
+' Simplified gap-coupled reconstruction; source figures show inset feeds.
+' Geometry and solver execution require validation in CST. See docs/source-audit.md.
+' Run only in a fresh project: ResetModel deletes the named antenna objects.
+
 Dim PatchShape As String
 Dim ConductorName As String
 
@@ -225,6 +229,7 @@ Sub AddBar (ByRef name As String, ByRef x0 As String, ByRef x1 As String, ByRef 
 End Sub
 
 Sub BuildFeedLine
+    ' Gpf separates feed and patch; this does not reconstruct the reported inset slots.
     With Brick
         .Reset
         .Name "feed" : .Component "antenna" : .Material ConductorName

@@ -35,11 +35,13 @@ def _table(headers: Sequence[str], rows: Sequence[Tuple[List[str], bool]]) -> st
 
 
 def simulation_table(ds: Dataset) -> str:
-    headers = ["Geometry", "S11 (dB)", "VSWR", "Bandwidth (%)", "Main Lobe (dB)", "Side Lobe (dB)"]
+    headers = ["Geometry", "S11 (dB)", "VSWR", "Bandwidth (%)", "Pattern quantity",
+               "Main Lobe (dB)", "Side Lobe (dB)"]
     rows = []
     for g in ds.geometries:
         s = g.simulation
         rows.append(([g.name, _num(s.s11_db, 2), _num(s.vswr, 3), _num(s.bandwidth_pct, 2),
+                      s.pattern_quantity,
                       _num(s.main_lobe_db, 2), _num(s.side_lobe_db, 1)], g.highlight))
     return _table(headers, rows)
 
@@ -68,16 +70,24 @@ def delta_table(ds: Dataset) -> str:
     return _table(headers, rows)
 
 
+def pattern_proxies_available(ds: Dataset) -> bool:
+    """Require one known pattern quantity before comparing derived proxies."""
+    quantities = {g.simulation.pattern_quantity for g in ds.geometries}
+    return quantities in ({"directivity"}, {"gain"})
+
+
 def figure_of_merit_table(ds: Dataset) -> str:
-    headers = ["Geometry", "Footprint (mm²)", "Main Lobe (dB)",
+    headers = ["Geometry", "Nominal patch area (mm²)", "Pattern quantity", "Main Lobe (dB)",
                "Pattern proxy ÷ area (cm⁻²)", "Pattern proxy × reported BW"]
     rows = []
+    comparable = pattern_proxies_available(ds)
     for g in ds.geometries:
         s = g.simulation
         area = patch_area_mm2(g.key, g.dimensions_mm)
-        rows.append(([g.name, _num(area, 0), _num(s.main_lobe_db, 2),
-                      _num(fom.gain_per_area(s.main_lobe_db, area), 3),
-                      _num(fom.gain_bandwidth_product(s.main_lobe_db, s.bandwidth_pct), 3)], g.highlight))
+        rows.append(([g.name, _num(area, 0), s.pattern_quantity, _num(s.main_lobe_db, 2),
+                      _num(fom.gain_per_area(s.main_lobe_db, area), 3) if comparable else "n/a",
+                      _num(fom.gain_bandwidth_product(s.main_lobe_db, s.bandwidth_pct), 3)
+                      if comparable else "n/a"], g.highlight))
     return _table(headers, rows)
 
 

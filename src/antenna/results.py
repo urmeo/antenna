@@ -29,6 +29,7 @@ class Simulation:
     main_lobe_db: float
     side_lobe_db: float
     bandwidth_pending: bool = False
+    pattern_quantity: str = "unknown"
 
 
 @dataclass
@@ -136,6 +137,8 @@ def validate(ds: Dataset) -> None:
             raise ValueError("%s band edges must be ordered" % g.key)
         _number(sim.main_lobe_db, "%s main lobe" % g.key)
         _number(sim.side_lobe_db, "%s side lobe" % g.key)
+        if sim.pattern_quantity not in ("unknown", "directivity", "gain"):
+            raise ValueError("%s pattern quantity must be unknown, directivity, or gain" % g.key)
         if g.measurement is not None:
             if not isinstance(g.measurement, Measurement):
                 raise ValueError("%s measurement must be a Measurement or null" % g.key)

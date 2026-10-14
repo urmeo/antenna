@@ -115,7 +115,7 @@ def read_s1p(path: str) -> Sweep:
                     raise ValueError("data values must be finite")
                 freqs.append(frequency * (freq_scale / 1e9))
                 s11.append(_to_db(a, b, fmt))
-            except ValueError as exc:
+            except (ValueError, OverflowError) as exc:
                 raise ValueError("%s:%d: %s" % (path, line_number, exc)) from exc
 
     if not freqs:
