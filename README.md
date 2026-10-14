@@ -3,8 +3,7 @@
 Five FR4 patch antenna shapes, simulated in CST, fabricated and measured with a VNA. Python checks the reported results and generates comparison tables and plots.
 
 <p align="center">
-  <a href="images/pipeline.svg"><img src="images/pipeline.svg" alt="Antenna pipeline: design five FR4 patch shapes, simulate in CST, fabricate, measure with a VNA, check manually recorded CST and VNA report values, and compare all five shapes in tables and plots." width="840"></a>
-  <br><sub>Select the pipeline to view it at full size.</sub>
+  <a href="images/pipeline.svg"><img src="images/pipeline.svg" alt="Design five FR4 patches → simulate in CST → fabricate → measure with a VNA → check reported values → compare tables and plots." width="840"></a>
 </p>
 
 **2.45 GHz target · FR4 substrate · CST + VNA**
@@ -61,15 +60,11 @@ BW uses `100 × (upper − lower) / midpoint`. Source reports conflict: circular
 
 #### Circular patch CST S11
 
-Source CST plot; raw sweep data is unavailable.
-
 <p align="center">
   <a href="outputs/s11_circular_cst.png"><img src="outputs/s11_circular_cst.png" alt="Circular patch CST S11 plot" width="760"></a>
 </p>
 
 #### Approximate resonance
-
-Closed form resonance estimates for the five patch shapes relative to the 2.45 GHz target.
 
 <p align="center">
   <a href="outputs/resonance_vs_target.png"><img src="outputs/resonance_vs_target.png" alt="Approximate closed form resonant frequency for each patch shape compared with the 2.45 GHz target" width="760"></a>
@@ -79,7 +74,7 @@ Closed form resonance estimates for the five patch shapes relative to the 2.45 G
 
 ## Design
 
-Parameters used by the reconstruction; the original CAD files are unavailable. See the [source audit](docs/source-audit.md) for reported dimensions and reconstruction assumptions.
+Reconstruction parameters; see the [source audit](docs/source-audit.md) for reported dimensions and assumptions.
 
 ### Common parameters
 
@@ -102,8 +97,6 @@ Parameters used by the reconstruction; the original CAD files are unavailable. S
 | Hexagonal | Side 17 |
 
 ## Gallery
-
-Select a thumbnail to view the original photograph.
 
 <details>
 <summary><strong>Antennas</strong> · 5 photos</summary>
@@ -198,7 +191,7 @@ antenna tables --check --readme README.md
 python -m pytest
 ```
 
-Analysis and plotting use Python and Matplotlib; verification uses pytest. Source: [`src/antenna/`](src/antenna/) · Tests: [`tests/`](tests/).
+Source: [`src/antenna/`](src/antenna/) · Tests: [`tests/`](tests/).
 
 <details>
 <summary><strong>Additional commands</strong></summary>
@@ -210,13 +203,13 @@ Analysis and plotting use Python and Matplotlib; verification uses pytest. Sourc
 | Refresh generated README tables | `antenna tables --write --readme README.md` |
 | Estimate resonance / primary dimension | `antenna design` / `antenna synth` |
 
-Replace `path/to/trace.s1p` with your sweep file. The table-writing command updates the generated README table blocks.
+Replace `path/to/trace.s1p` with your sweep file.
 
 </details>
 
 ### CST model
 
-Open [`cst/patch-antenna.bas`](cst/patch-antenna.bas) in CST Studio Suite’s VBA editor; select `PatchShape` and run in a fresh project. The macro uses a simplified gap-coupled feed; the report shows inset feeds. Its geometry and results require CST validation and do not reproduce the original model.
+Open [`cst/patch-antenna.bas`](cst/patch-antenna.bas) in CST Studio Suite’s VBA editor; select `PatchShape` and run in a fresh project. Its simplified gap-coupled feed differs from the report’s inset feeds and requires CST validation.
 
 ## References
 
@@ -224,11 +217,11 @@ Source reports: [Simulation and results](docs/simulation-and-results.pdf) · [Fa
 
 ### Evidence limits
 
-1. No raw CST/VNA sweeps, calibration logs or repeat measurements; source inconsistencies remain unverified.
-2. Closed form models approximate the triangle, hexagon and F shape. Radiation figures mix simulated directivity and gain; the toolkit suppresses their cross-quantity pattern proxies.
-3. Macro execution requires CST; hardware performance and 2.45 GHz suitability require new measurements.
+1. No original CAD/CST files, raw sweeps, calibration logs or repeat measurements; report inconsistencies remain unresolved.
+2. Closed form models approximate the triangle, hexagon and F shape. Radiation figures mix simulated directivity and gain; mixed-quantity proxies are suppressed.
+3. Hardware performance and 2.45 GHz suitability require new measurements.
 
-The [source audit](docs/source-audit.md) maps reported values to PDF pages and explains these limits. `antenna check` currently reports 0 errors, 8 unresolved warnings and 3 informational estimates; a successful exit does not verify the measurements.
+`antenna check`: 0 errors, 8 unresolved warnings and 3 informational estimates. A successful exit does not verify measurements.
 
 <details>
 <summary><strong>Background references</strong></summary>
