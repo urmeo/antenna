@@ -32,6 +32,17 @@ def test_ingest_exposes_reference_and_unavailable_bandwidth(tmp_path, capsys):
     assert "no complete band" in output
 
 
+def test_ingest_rejects_concatenated_options_without_output(tmp_path, capsys):
+    path = tmp_path / "concatenated.s1p"
+    path.write_text("# GHz S DB R 50\n2.4 -20 0\n# MHz S MA R 75\n2450 .1 0\n")
+    assert main(["ingest", str(path)]) == 2
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "multiple Touchstone option lines are unsupported" in captured.err
+    assert "%s:3" % path in captured.err
+    assert "Traceback" not in captured.err
+
+
 def test_default_readme_is_in_current_directory(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
     readme = tmp_path / "README.md"

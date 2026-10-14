@@ -69,12 +69,24 @@ def test_reordered_and_partial_options(tmp_path, header):
     assert sweep.reference_ohms == (75 if "75" in header else 50)
 
 
-def test_empty_option_line_uses_defaults_and_later_lines_are_ignored(tmp_path):
+def test_empty_option_line_uses_defaults(tmp_path):
     path = tmp_path / "defaults.s1p"
-    path.write_text("#\n2.4 0.1 0\n# MHz Z DB R -50\n2.5 0.2 0\n")
+    path.write_text("#\n2.4 0.1 0\n2.5 0.2 0\n")
     sweep = read_s1p(str(path))
     assert sweep.freqs_ghz == [2.4, 2.5]
     assert sweep.s11_db == pytest.approx([-20, 20 * math.log10(.2)])
+    assert sweep.reference_ohms == 50
+
+
+@pytest.mark.parametrize("later_header", ["# MHz S MA R 75", "# GHz S DB R 50", "# MHz Z DB R -50", "#"])
+@pytest.mark.parametrize("preceding_data", ["", "2.4 -20 0\n"])
+def test_rejects_later_option_lines(tmp_path, later_header, preceding_data):
+    path = tmp_path / "multiple-options.s1p"
+    prefix = "# GHz S DB R 50\n" + preceding_data + "\n! second block\n"
+    path.write_text(prefix + "  " + later_header + " ! later options\n2450 .1 0\n")
+    with pytest.raises(ValueError, match="multiple Touchstone option lines are unsupported") as error:
+        read_s1p(str(path))
+    assert "%s:%d" % (path, len(prefix.splitlines()) + 1) in str(error.value)
 
 
 @pytest.mark.parametrize("header", ["# GHz Z RI R 50", "# GHz Y DB", "# THz S DB", "# GHz S DB R -50",

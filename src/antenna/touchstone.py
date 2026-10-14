@@ -1,6 +1,7 @@
 """Read Touchstone v1 one-port S11 sweeps in DB, MA or RI format.
 
-Option keywords may be reordered or omitted using v1 defaults.
+Exactly one option line is required; keywords may be reordered or omitted
+using v1 defaults.
 Other network parameters and Touchstone v2 are unsupported.
 """
 from __future__ import annotations
@@ -99,9 +100,11 @@ def read_s1p(path: str) -> Sweep:
             if not line:
                 continue
             if line.startswith("#"):
-                if not options_seen:
-                    freq_scale, fmt, reference = _options(line[1:])
-                    options_seen = True
+                if options_seen:
+                    raise ValueError("multiple Touchstone option lines are unsupported: %s:%d"
+                                     % (path, line_number))
+                freq_scale, fmt, reference = _options(line[1:])
+                options_seen = True
                 continue
             if line.startswith("["):
                 raise ValueError("Touchstone v2 is unsupported: %s:%d" % (path, line_number))
