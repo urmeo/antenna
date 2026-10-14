@@ -23,6 +23,24 @@ Derived checks:
 
 Circular bandwidth is 3.62% on [p. 6](simulation-and-results.pdf#page=6) and 3.12% on [p. 20](simulation-and-results.pdf#page=20); the dataset retains 3.12%. Differences within the checker’s tolerance remain unverified.
 
+## Measurement provenance
+
+Tables 5.1–5.5 describe readings at the resonant frequency but provide no numeric S11/VSWR reading frequencies, sweep IDs or per-antenna port reference and calibration records. `read_at` preserves that description; it does not establish paired readings. All five entries retain `verified: false`.
+
+The [methodology’s calibration instructions, p. 2](methodology.pdf#page=2), mention a 50 Ω load. Its [instrument snapshot, p. 4](methodology.pdf#page=4), shows a 2.41 GHz marker at −15.16 dB. Neither identifies the conditions for any of the five measurement pairs. Do not assign these settings to those rows or replace reported VSWR with a calculated value.
+
+## Bandwidth convention
+
+These are simulation-report discrepancies; the measurement tables contain no bandwidth results. The [simulation report, p. 2](simulation-and-results.pdf#page=2), describes normalization by a center frequency. The per-shape calculations do not identify its numeric value or the threshold used to select the edges. Neither midpoint nor 2.45 GHz normalization reproduces the three percentages:
+
+| Shape | Reported BW (%) | From edges / midpoint (%) | From edges / 2.45 GHz (%) |
+|---|---|---|---|
+| Triangular | 2.45 | 6.56 | 5.92 |
+| Square | 2.41 | 3.76 | 3.27 |
+| Hexagonal | 2.12 | 6.96 | 6.16 |
+
+These calculations diagnose the conflicts; they do not recover the original convention. The three entries retain `bandwidth_pending: true` and their reported values.
+
 ## Radiation quantities
 
 The figures are simulated `Phi = 90°` cuts at 2.45 GHz: four directivity figures and one gain figure (square). They establish no measured gain or common gain ranking. The toolkit suppresses mixed-quantity gain-per-area and gain-bandwidth proxies.
@@ -41,4 +59,6 @@ Closed-form estimates use an equilateral model for the isosceles triangle, an eq
 
 ## Evidence still needed
 
-Original CAD/CST files, raw CST/VNA sweeps, calibration logs and repeat measurements are unavailable. Resolving report conflicts, validating the reconstruction and establishing performance at 2.45 GHz require original files or new simulations and measurements.
+Original CAD/CST files, raw sweeps and reading/calibration records are unavailable. The historical values remain unreconciled report transcriptions.
+
+Any new dataset must retain its CST/VNA exports, antenna ID, S11/VSWR reading frequencies, port reference and calibration record, plus the bandwidth threshold, crossing frequencies and normalization frequency. New simulations or measurements must be reported separately; they cannot restore the missing historical provenance.
