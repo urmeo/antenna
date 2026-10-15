@@ -3,7 +3,8 @@
 Five FR4 patch antenna shapes, simulated in CST, fabricated and measured with a VNA. Python checks the reported results and generates comparison tables and plots.
 
 <p align="center">
-  <a href="images/pipeline.svg"><img src="images/pipeline.svg" alt="Design five FR4 patches → simulate in CST → fabricate → measure with a VNA → check reported values → compare tables and plots." width="840"></a>
+  <a href="images/pipeline.svg"><img src="images/pipeline.svg" alt="Antenna workflow: design, simulate, fabricate and measure; manually record CST/VNA report values, check them in Python, and compare tables and plots. Eight data discrepancies remain unresolved." width="1000"></a>
+  <br><sub><a href="https://www.figma.com/design/NjLkmRozV5EbUtvv6ulIFG?node-id=2-2">Figma source</a> · <a href="images/pipeline.svg">SVG</a></sub>
 </p>
 
 **2.45 GHz target · FR4 substrate · CST + VNA**
