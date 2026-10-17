@@ -36,7 +36,6 @@ def test_synth_inverts_to_target():
 
 
 def test_synth_rejects_unreachable_target():
-    import pytest
     with pytest.raises(ValueError):
         design.synthesize_dimension("circular", {"R": 17.0}, 4.4, 1.4, 200.0)
     with pytest.raises(ValueError):

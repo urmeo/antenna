@@ -9,9 +9,9 @@ from antenna.results import load, validate
 
 
 def _raw():
-    ds = load()
-    return {"meta": {key: value for key, value in asdict(ds).items() if key != "geometries"},
-            "geometries": asdict(ds)["geometries"]}
+    raw = asdict(load())
+    geometries = raw.pop("geometries")
+    return {"meta": raw, "geometries": geometries}
 
 
 def test_load_rejects_missing_fields_and_bad_structure(tmp_path):

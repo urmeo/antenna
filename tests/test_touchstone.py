@@ -21,7 +21,6 @@ def test_read_s1p_db_format(tmp_path):
 
 
 def test_resonance_and_band_edges(tmp_path):
-    from antenna.touchstone import band_edges, resonance
     path = tmp_path / "sweep.s1p"
     path.write_text(textwrap.dedent("""\
         # GHz S DB R 50
@@ -48,7 +47,6 @@ def test_ma_format_and_hz_scaling(tmp_path):
 
 
 def test_rejects_empty_and_malformed(tmp_path):
-    import pytest
     empty = tmp_path / "empty.s1p"
     empty.write_text("! comments only\n# GHz S DB R 50\n")
     with pytest.raises(ValueError):
