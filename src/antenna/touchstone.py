@@ -10,6 +10,8 @@ import math
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
+from ._numeric import finite_real as _finite
+
 _FREQ_SCALE = {"HZ": 1.0, "KHZ": 1e3, "MHZ": 1e6, "GHZ": 1e9}
 
 
@@ -131,13 +133,6 @@ def read_s1p(path: str) -> Sweep:
     if not freqs:
         raise ValueError("no data points in %s" % path)
     return Sweep(freqs, s11, reference)
-
-
-def _finite(value: float) -> bool:
-    try:
-        return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
-    except OverflowError:
-        return False
 
 
 def _options(line: str) -> Tuple[float, str, float]:

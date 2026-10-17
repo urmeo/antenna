@@ -11,6 +11,8 @@ from __future__ import annotations
 import math
 from typing import Dict
 
+from ._numeric import finite_real as _finite
+
 C_MM_S = 2.997_924_58e11
 
 TRI_SQRT3 = math.sqrt(3.0)
@@ -22,13 +24,6 @@ DIMENSIONS = {"circular": ("R",), "square": ("S",),
 def _positive(value: float, name: str) -> None:
     if not _finite(value) or value <= 0:
         raise ValueError("%s must be finite and positive" % name)
-
-
-def _finite(value: float) -> bool:
-    try:
-        return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
-    except OverflowError:
-        return False
 
 
 def _material(er: float, h_mm: float) -> None:

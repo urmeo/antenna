@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import math
 
+from ._numeric import finite_real as _finite
+
 
 def reflection_coefficient(s11_db: float) -> float:
     """Return |Γ| from S11 in dB; -inf represents zero reflection."""
@@ -76,10 +78,3 @@ def _band(f_low: float, f_high: float) -> None:
 def _s11(value: float) -> None:
     if not _finite(value) and value != float("-inf"):
         raise ValueError("S11 must be finite or -inf for zero reflection")
-
-
-def _finite(value: float) -> bool:
-    try:
-        return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
-    except OverflowError:
-        return False

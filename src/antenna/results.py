@@ -2,11 +2,11 @@
 from __future__ import annotations
 
 import json
-import math
 from dataclasses import dataclass
 from importlib.resources import files
 from typing import Dict, List, Optional
 
+from ._numeric import finite_real as _finite
 from .design import validate_dimensions
 
 
@@ -157,11 +157,7 @@ def _reading(reading: "Simulation | Measurement", name: str) -> None:
 
 
 def _number(value: float, name: str, positive: bool = False, nonnegative: bool = False) -> None:
-    try:
-        finite = isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
-    except OverflowError:
-        finite = False
-    if not finite:
+    if not _finite(value):
         raise ValueError("%s must be a finite number" % name)
     if positive and value <= 0:
         raise ValueError("%s must be positive" % name)

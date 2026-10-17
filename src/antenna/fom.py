@@ -7,12 +7,7 @@ from __future__ import annotations
 
 import math
 
-
-def _finite(value: float) -> bool:
-    try:
-        return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
-    except OverflowError:
-        return False
+from ._numeric import finite_real as _finite
 
 
 def gain_linear(main_lobe_db: float) -> float:
