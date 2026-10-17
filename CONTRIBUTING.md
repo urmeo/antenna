@@ -4,4 +4,6 @@
 2. Run `antenna check` and `python -m pytest`; document any remaining data warnings.
 3. Cite source pages or raw traces for numeric changes; regenerate tables with `antenna tables --write --readme README.md` and plots with `antenna plot --out outputs`.
 
-Edit canonical values in `src/antenna/data/results.json`. Run the CST macro in a fresh project. Use concise commits such as `updated analysis` or `updated readme`.
+Edit canonical values in `src/antenna/data/results.json`.
+
+Use short lowercase commits naming the change: `updated <change>` (LICENSE: `update license`).
