@@ -192,8 +192,6 @@ antenna tables --check --readme README.md
 python -m pytest
 ```
 
-Source: [`src/antenna/`](src/antenna/) · Tests: [`tests/`](tests/).
-
 <details>
 <summary><strong>Additional commands</strong></summary>
 
@@ -203,8 +201,6 @@ Source: [`src/antenna/`](src/antenna/) · Tests: [`tests/`](tests/).
 | Analyze a supplied Touchstone sweep | `antenna ingest path/to/trace.s1p` |
 | Refresh generated README tables | `antenna tables --write --readme README.md` |
 | Estimate resonance / primary dimension | `antenna design` / `antenna synth` |
-
-Replace `path/to/trace.s1p` with your sweep file.
 
 </details>
 
