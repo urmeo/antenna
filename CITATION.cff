@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "Please cite this repository if you use this work."
+title: "2.45 GHz Microstrip Patch Antenna Study"
+type: software
+authors:
+  - given-names: urme
+license: MIT
+url: https://github.com/urmeo/antenna

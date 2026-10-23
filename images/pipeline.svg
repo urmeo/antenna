@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" fill="none" role="img" aria-labelledby="pipeline-title pipeline-description">
+  <title id="pipeline-title">Antenna study and analysis pipeline</title>
+  <desc id="pipeline-description">The historical study designed five FR4 patch shapes for a 2.45 GHz target, simulated them in CST, fabricated copper patches, and measured them with a VNA. CST and VNA report values were manually transcribed from PDFs into results.json. Python checks S11 against VSWR and checks bandwidth, then produces README tables and plots. Five S11/VSWR pairs and three bandwidth values remain unresolved; raw sweeps are unavailable. Solid arrows show workflow order, not automated transfer. Dashed gray links show report provenance.</desc>
+  <defs>
+    <marker id="arrow-cyan" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0L10 5L0 10Z" fill="#55C4E0"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0L10 5L0 10Z" fill="#9AA7AE"/>
+    </marker>
+    <marker id="arrow-salmon" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0L10 5L0 10Z" fill="#D17D6F"/>
+    </marker>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; }
+      .title { fill: #D7DEE0; font-size: 30px; font-weight: 700; }
+      .meta { fill: #9AA7AE; font-size: 21px; }
+      .section { fill: #9AA7AE; font-size: 18px; font-weight: 600; letter-spacing: 1.1px; }
+      .card { fill: #1B2327; stroke: #D7DEE0; stroke-width: 1.7; }
+      .analysis { stroke: #55C4E0; }
+      .heading { fill: #D7DEE0; font-size: 29px; font-weight: 700; }
+      .body { fill: #9AA7AE; font-size: 21px; }
+      .label { fill: #9AA7AE; font-size: 18px; }
+      .cyan-label { fill: #55C4E0; font-size: 18px; }
+      .flow { fill: none; stroke: #55C4E0; stroke-width: 2.2; stroke-linejoin: round; }
+      .source { fill: none; stroke: #9AA7AE; stroke-width: 1.8; stroke-dasharray: 6 6; stroke-linejoin: round; }
+      .warning-flow { fill: none; stroke: #D17D6F; stroke-width: 1.8; stroke-dasharray: 5 5; }
+      .warning { fill: #D7DEE0; font-size: 21px; }
+    </style>
+  </defs>
+  <rect width="1200" height="640" fill="#14191C"/>
+  <text class="title" x="32" y="43">ANTENNA PIPELINE</text>
+  <text class="meta" x="1168" y="42" text-anchor="end">2.45 GHz target · FR4</text>
+  <path d="M32 64H1168" stroke="#9AA7AE" stroke-width="1"/>
+
+  <text class="section" x="32" y="96">HISTORICAL STUDY</text>
+  <g id="design">
+    <rect class="card" x="32" y="120" width="248" height="112" rx="8"/>
+    <text class="heading" x="54" y="163">Design</text>
+    <text class="body" x="54" y="199">Five patch shapes</text>
+  </g>
+  <g id="simulate">
+    <rect class="card" x="328" y="120" width="248" height="112" rx="8"/>
+    <text class="heading" x="350" y="163">Simulate</text>
+    <text class="body" x="350" y="199">CST · S11 + bands</text>
+  </g>
+  <g id="fabricate">
+    <rect class="card" x="624" y="120" width="248" height="112" rx="8"/>
+    <text class="heading" x="646" y="163">Fabricate</text>
+    <text class="body" x="646" y="199">Copper patches</text>
+  </g>
+  <g id="measure">
+    <rect class="card" x="920" y="120" width="248" height="112" rx="8"/>
+    <text class="heading" x="942" y="163">Measure</text>
+    <text class="body" x="942" y="199">VNA · S11 + VSWR</text>
+  </g>
+  <path class="flow" d="M282 176H320" marker-end="url(#arrow-cyan)"/>
+  <path class="flow" d="M578 176H616" marker-end="url(#arrow-cyan)"/>
+  <path class="flow" d="M874 176H912" marker-end="url(#arrow-cyan)"/>
+
+  <path class="source" d="M452 234V278H197V310"/>
+  <text class="label" x="342" y="264">CST report</text>
+  <path class="source" d="M1044 234V310H197"/>
+  <text class="label" x="930" y="294">VNA report</text>
+  <path class="source" d="M197 310V388" marker-end="url(#arrow-gray)"/>
+  <text class="label" x="222" y="350">Manual transcription</text>
+
+  <text class="section" x="32" y="374">ANALYSIS</text>
+  <g id="reported-values">
+    <rect class="card analysis" x="32" y="400" width="330" height="112" rx="8"/>
+    <text class="heading" x="54" y="443">Reported values</text>
+    <text class="body" x="54" y="479">PDFs → results.json</text>
+  </g>
+  <g id="python-checks">
+    <rect class="card analysis" x="435" y="400" width="330" height="112" rx="8"/>
+    <text class="heading" x="457" y="443">Python checks</text>
+    <text class="body" x="457" y="479">S11 ↔ VSWR · bandwidth</text>
+  </g>
+  <g id="comparison">
+    <rect class="card analysis" x="838" y="400" width="330" height="112" rx="8"/>
+    <text class="heading" x="860" y="443">Comparison</text>
+    <text class="body" x="860" y="479">README tables · plots</text>
+  </g>
+  <text class="cyan-label" x="398" y="438" text-anchor="middle">values</text>
+  <path class="flow" d="M370 456H427" marker-end="url(#arrow-cyan)"/>
+  <text class="cyan-label" x="801" y="438" text-anchor="middle" style="font-size:17px">compare</text>
+  <path class="flow" d="M773 456H830" marker-end="url(#arrow-cyan)"/>
+
+  <path class="warning-flow" d="M600 514V544" marker-end="url(#arrow-salmon)"/>
+  <rect x="32" y="552" width="1136" height="56" rx="8" fill="#1B2327" stroke="#D17D6F" stroke-width="1.5"/>
+  <text class="warning" x="52" y="587">Unresolved: 5 S11/VSWR pairs · 3 bandwidth values</text>
+  <text class="label" x="1148" y="586" text-anchor="end">Raw sweeps unavailable</text>
+</svg>
